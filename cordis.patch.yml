@@ -1,0 +1,9 @@
+# The bundle installs a dormant row. The user's profile patch enables it and
+# supplies the local artwork path, so installing the package never guesses at
+# or redistributes a character image.
+- insert:
+    - id: gouden-leeuw-theme
+      name: dsh-plugin-gouden-leeuw-theme
+      disabled: true
+      config:
+        artworkPath: ''

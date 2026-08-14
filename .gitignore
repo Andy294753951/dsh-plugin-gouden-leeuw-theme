@@ -1,0 +1,11 @@
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+artwork/
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.avif
+*.gif
