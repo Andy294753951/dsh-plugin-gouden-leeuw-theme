@@ -1,9 +1,6 @@
-# The bundle installs a dormant row. The user's profile patch enables it and
-# supplies the local artwork path, so installing the package never guesses at
-# or redistributes a character image.
+# The bundle installs a dormant row. install.ps1 enables it for the selected
+# profile; the artwork is shipped with this non-commercial fan theme.
 - insert:
     - id: gouden-leeuw-theme
       name: dsh-plugin-gouden-leeuw-theme
       disabled: true
-      config:
-        artworkPath: ''

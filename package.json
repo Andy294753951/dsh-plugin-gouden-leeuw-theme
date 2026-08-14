@@ -1,6 +1,6 @@
 {
   "name": "dsh-plugin-gouden-leeuw-theme",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Unofficial Gouden Leeuw moonlit sanctuary theme for the DeepSeek Harness web UI",
   "author": "Andy294753951",
   "repository": {
@@ -44,8 +44,9 @@
     "gouden-leeuw",
     "azur-lane"
   ],
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "files": [
+    "assets",
     "lib",
     "cordis.patch.yml",
     "src",
@@ -54,11 +55,9 @@
     "uninstall.ps1",
     "README.md",
     "README.zh-CN.md",
+    "THIRD_PARTY_NOTICES.md",
     "LICENSE"
   ],
-  "dependencies": {
-    "@deepseek-ai/schemastery": "^3.18.1"
-  },
   "peerDependencies": {
     "@deepseek-ai/cordis": "^4.0.1",
     "@deepseek-ai/dsh-client-ui-theme": ">=0.1.0-rc.5 <0.2.0",

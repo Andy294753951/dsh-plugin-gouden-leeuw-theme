@@ -6,8 +6,8 @@
 浅薄荷月光、月长石玻璃、萤火微粒与深翡翠夜色；在欢迎页保持角色构图鲜明，进入
 对话后会主动降低视觉占比，让消息、工具与代码重新成为阅读中心。
 
-仓库里**只包含主题代码**，不会包含、下载或二次分发角色原图。安装时由用户指定
-自己有权使用的本地图片，Host 侧只通过一个固定的同源地址向本机 UI 提供这一个文件。
+主题现在是完整自包含的：金狮立绘随插件提供，由 Host 侧通过固定同源地址提供给
+本机 UI。安装时不需要准备图片，也不需要填写任何本地路径。
 
 ## 主要效果
 
@@ -21,7 +21,6 @@
 
 - DeepSeek Harness `0.1.0-rc.5` 或更新的 `0.1.x` 版本。
 - Node.js `^22.19.0` 或 `>=24.0.0`。
-- 一张你有权使用的 PNG、JPEG、WebP、AVIF 或 GIF 图片。
 
 ## Windows 安装
 
@@ -30,7 +29,7 @@
 ```powershell
 git clone https://github.com/Andy294753951/dsh-plugin-gouden-leeuw-theme.git
 Set-Location .\dsh-plugin-gouden-leeuw-theme
-pwsh -File .\install.ps1 -ArtworkPath "C:\图片路径\1143px-Gouden_Leeuw.png"
+pwsh -File .\install.ps1
 ```
 
 之后重启 `dsh web`。脚本会构建无第三方依赖的浏览器 bundle，把本地组合包加入
@@ -40,7 +39,6 @@ pwsh -File .\install.ps1 -ArtworkPath "C:\图片路径\1143px-Gouden_Leeuw.png"
 
 ```powershell
 pwsh -File .\install.ps1 `
-  -ArtworkPath "D:\art\gouden-leeuw.webp" `
   -DshHome "D:\dsh-home" `
   -DshProfile web
 ```
@@ -55,13 +53,11 @@ dsh plugin --profile web add .
 ```
 
 组合包会先创建一个休眠的插件条目。再把以下覆盖配置追加到
-`~/.dsh/profiles/web/cordis.patch.yml`，并替换成图片的绝对路径：
+`~/.dsh/profiles/web/cordis.patch.yml`：
 
 ```yaml
 - id: gouden-leeuw-theme
   disabled: false
-  config:
-    artworkPath: '/absolute/path/to/gouden-leeuw.png'
 ```
 
 修改 profile 组合后重启 `dsh web`。
@@ -72,7 +68,7 @@ dsh plugin --profile web add .
 pwsh -File .\uninstall.ps1
 ```
 
-卸载脚本只移除受管理的 profile 配置和包依赖，不会修改或删除你的图片。
+卸载脚本会移除受管理的 profile 配置和包依赖。
 
 ## 开发与验证
 
@@ -82,7 +78,8 @@ npm run check
 
 - `src/client/theme.css`：视觉规则。
 - `src/client/index.js`：浏览器主题与萤火效果。
-- `src/index.js`：Host 侧本地图片路由。
+- `src/index.js`：Host 侧内置图片路由。
+- `assets/`：主题自带的金狮立绘。
 - `lib/`：生成后需要提交的可安装产物。
 
 ## 兼容性说明
@@ -94,4 +91,5 @@ Harness 后续大版本更新时可能需要维护选择器。目前只面向 HT
 
 本项目是非商业、非官方的同人主题，与 DeepSeek、悠星、蛮啾或勇仕没有隶属或背书关系。
 《碧蓝航线》、金狮（Gouden Leeuw）、相关名称、图像与商标归各自权利方所有。MIT
-许可证只覆盖本仓库代码，不覆盖用户自行提供的任何图片。
+许可证只覆盖本仓库代码，不覆盖随主题提供的立绘。图片来源及声明见
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

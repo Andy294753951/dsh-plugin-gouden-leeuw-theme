@@ -1,7 +1,7 @@
 /*
  * Gouden Leeuw Moonlit Sanctuary — an unofficial DeepSeek Harness fan theme.
  * Character artwork is supplied locally by the user and served by the plugin;
- * no character image is distributed with this repository.
+ * the bundled character artwork is excluded from the code's MIT license.
  *
  * The selectors target the current DSH web surface. Semantic token overrides
  * in the client plugin keep shared dialogs and future components coherent.

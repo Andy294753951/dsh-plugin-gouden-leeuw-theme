@@ -7,6 +7,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $packageName = 'dsh-plugin-gouden-leeuw-theme'
+$DshHome = [System.IO.Path]::GetFullPath($DshHome)
 $profileRoot = Join-Path (Join-Path $DshHome 'profiles') $DshProfile
 $patchPath = Join-Path $profileRoot 'cordis.patch.yml'
 $encoding = [System.Text.UTF8Encoding]::new($false)
@@ -28,8 +29,13 @@ if (Test-Path -LiteralPath $patchPath) {
 }
 
 $dsh = Get-Command dsh -ErrorAction Stop
-& $dsh.Source plugin --profile $DshProfile remove $packageName
-if ($LASTEXITCODE -ne 0) { throw "DSH plugin removal failed with exit code $LASTEXITCODE." }
+$previousDshHome = $env:DSH_HOME
+try {
+  $env:DSH_HOME = $DshHome
+  & $dsh.Source plugin --profile $DshProfile remove $packageName
+  if ($LASTEXITCODE -ne 0) { throw "DSH plugin removal failed with exit code $LASTEXITCODE." }
+} finally {
+  $env:DSH_HOME = $previousDshHome
+}
 
 Write-Host 'Gouden Leeuw theme removed. Restart dsh web to finish.' -ForegroundColor Green
-Write-Host 'The artwork file was not changed or deleted.'

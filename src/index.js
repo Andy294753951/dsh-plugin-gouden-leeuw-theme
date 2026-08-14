@@ -1,33 +1,19 @@
 import { createReadStream, statSync } from 'node:fs'
-import { extname, resolve } from 'node:path'
-import z from '@deepseek-ai/schemastery'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const ARTWORK_ROUTE = '/gouden-leeuw-theme/artwork'
-const MIME_TYPES = {
-  '.avif': 'image/avif',
-  '.gif': 'image/gif',
-  '.jpeg': 'image/jpeg',
-  '.jpg': 'image/jpeg',
-  '.png': 'image/png',
-  '.webp': 'image/webp',
-}
-
-export const Config = z.object({
-  artworkPath: z.string().required(),
-})
+const ARTWORK_PATH = resolve(dirname(fileURLToPath(import.meta.url)), '../assets/gouden-leeuw.png')
 
 /**
- * Serves one explicitly configured local artwork file over an exact,
- * same-origin route. The repository never bundles or copies that artwork.
+ * Serves the bundled fan-theme artwork over an exact same-origin route.
  */
-export function apply(ctx, config) {
-  const artworkPath = resolve(config.artworkPath)
-  const artwork = statSync(artworkPath)
+export function apply(ctx) {
+  const artwork = statSync(ARTWORK_PATH)
   if (!artwork.isFile()) {
-    throw new TypeError(`Gouden Leeuw theme artwork is not a file: ${artworkPath}`)
+    throw new TypeError(`Bundled Gouden Leeuw artwork is missing: ${ARTWORK_PATH}`)
   }
 
-  const contentType = MIME_TYPES[extname(artworkPath).toLowerCase()] ?? 'application/octet-stream'
   const etag = `W/\"${artwork.size.toString(16)}-${Math.trunc(artwork.mtimeMs).toString(16)}\"`
 
   ctx.inject(['webServer'], (owner) => {
@@ -50,7 +36,7 @@ export function apply(ctx, config) {
         res.writeHead(200, {
           'Cache-Control': 'private, max-age=3600',
           'Content-Length': artwork.size,
-          'Content-Type': contentType,
+          'Content-Type': 'image/png',
           'Cross-Origin-Resource-Policy': 'same-origin',
           ETag: etag,
           'X-Content-Type-Options': 'nosniff',
@@ -60,12 +46,12 @@ export function apply(ctx, config) {
           return
         }
 
-        const stream = createReadStream(artworkPath)
+        const stream = createReadStream(ARTWORK_PATH)
         stream.on('error', () => res.destroy())
         stream.pipe(res)
       },
-    }), 'gouden-leeuw-theme: local artwork route')
+    }), 'gouden-leeuw-theme: bundled artwork route')
   })
 }
 
-export { ARTWORK_ROUTE }
+export { ARTWORK_PATH, ARTWORK_ROUTE }
