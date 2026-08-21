@@ -4,10 +4,12 @@ import { fileURLToPath } from 'node:url'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const lib = resolve(root, 'lib')
-const [css, clientBody] = await Promise.all([
+const [rawCss, rawClientBody] = await Promise.all([
   readFile(resolve(root, 'src/client/theme.css'), 'utf8'),
   readFile(resolve(root, 'src/client/index.js'), 'utf8'),
 ])
+const css = rawCss.replace(/\r\n?/g, '\n')
+const clientBody = rawClientBody.replace(/\r\n?/g, '\n')
 
 await mkdir(lib, { recursive: true })
 await copyFile(resolve(root, 'src/index.js'), resolve(lib, 'index.js'))
