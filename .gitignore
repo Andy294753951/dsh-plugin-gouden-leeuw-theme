@@ -11,4 +11,10 @@ artwork/
 *.avif
 *.gif
 !assets/
-!assets/gouden-leeuw.png
+!assets/**/
+!assets/**/*.png
+!assets/**/*.jpg
+!assets/**/*.jpeg
+!assets/**/*.webp
+!gui-test-screenshots/
+!gui-test-screenshots/*.png
